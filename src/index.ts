@@ -22,4 +22,4 @@ app.get('/', (req: Request, res: Response) => {
   res.send('hello typescript')
 })
 
-app.use('/blogs', BlogRoutes)
+app.use(BlogRoutes)
