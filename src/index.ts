@@ -7,6 +7,12 @@ dotenv.config()
 const app: Express = express()
 const port = process.env.PORT || 5000
 
+// Parse JSON requests
+app.use(express.json());
+
+// Parse URL-encoded requests
+app.use(express.urlencoded({ extended: true }));
+
 // db connection
 const mongodbURL =
 `mongodb+srv://muyambangopeter:${process.env.mongoDbPassword}@clusterpbeetech.fejatzo.mongodb.net/?retryWrites=true&w=majority`

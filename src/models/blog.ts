@@ -1,11 +1,15 @@
-import mongoose from "mongoose";
+import {Schema, model} from "mongoose";
 
-const Schema = mongoose.Schema;
-const BlogSchema = new Schema({
+export interface IBlog {
+    title: string;
+    description: string;
+}
+
+const BlogSchema = new Schema<IBlog>({
     title: String,
     description: String
 })
 
-const Blog = mongoose.model('blog', BlogSchema);
+const Blog = model<IBlog>('blog', BlogSchema);
 
 export default Blog;
