@@ -2,6 +2,7 @@ import express, { type Express, type Request, type Response } from 'express'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import BlogRoutes from './routes/blogRoutes'
+import AuthRoutes from './routes/authRoutes';
 
 dotenv.config()
 const app: Express = express()
@@ -28,4 +29,5 @@ app.get('/', (req: Request, res: Response) => {
   res.send('hello typescript')
 })
 
+app.use(AuthRoutes)
 app.use(BlogRoutes)
