@@ -1,8 +1,8 @@
 import express, { type Express, type Request, type Response } from 'express'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
-import BlogRoutes from './routes/blogRoutes'
 import AuthRoutes from './routes/authRoutes';
+import ProductRoutes from './routes/productRoutes';
 
 dotenv.config()
 const app: Express = express()
@@ -30,4 +30,4 @@ app.get('/', (req: Request, res: Response) => {
 })
 
 app.use(AuthRoutes)
-app.use(BlogRoutes)
+app.use(ProductRoutes)
