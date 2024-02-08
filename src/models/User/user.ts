@@ -5,8 +5,8 @@ const UserSchema = new Schema({
     password: {type: String, required: true},
     firstName: {type: String, default: ''},
     lastName: {type: String, default: ''},
-    cart: [Number],
-    watchlist: [Number]
+    cart: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
+    watchlist: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
 })
 
 const User = model('user', UserSchema);

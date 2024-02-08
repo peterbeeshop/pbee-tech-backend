@@ -11,8 +11,6 @@ router.get('/users', (req, res) => {
         res.send(users)
     }).catch(err => res.send(err))
 })
-router.delete('/users', (req, res) => {
-    User.deleteMany()
-})
+
 
 export default router;
