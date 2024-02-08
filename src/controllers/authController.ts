@@ -3,14 +3,14 @@ import bcrypt from 'bcryptjs';
 import User from "../models/User/user";
 
 export const signup = (req: Request, res:Response ) => {
-    const {username, password} = req.body;
-    User.findOne({username}).then(user => {
+    const {email, password} = req.body;
+    User.findOne({email}).then(user => {
         if (user) {
             res.send('User already exists. Login in')
         }else {
             let salt = bcrypt.genSaltSync(10);
             let hash = bcrypt.hashSync(password, salt);
-            User.create({username, password: hash})
+            User.create({email, password: hash})
                 .then(createdUser => res.send(createdUser))
                 .catch(err => res.send(err))
         }
@@ -18,8 +18,8 @@ export const signup = (req: Request, res:Response ) => {
 }
 
 export const login = (req: Request, res:Response ) => {
-    const {username, password} = req.body;
-    User.findOne({username}).then(user => {
+    const {email, password} = req.body;
+    User.findOne({email}).then(user => {
         if (!user) {
             res.send('No user was found. Create account')
         } else {
