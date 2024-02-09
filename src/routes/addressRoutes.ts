@@ -1,14 +1,17 @@
-import { getAddress, createAddress } from "../controllers/addressController";
-import {Router} from 'express';
+import {
+  getAllAddress,
+  getAddressForUser,
+  createAddress,
+} from '../controllers/addressController'
+import { Router } from 'express'
 
-const router = Router();
+const router = Router()
 
 //get all the address in the db
-router.get('/address', getAddress);
+router.get('/address', getAddressForUser)
 
-router.post('/address', createAddress);
+router.get('/all-address', getAllAddress)
 
+router.post('/address', createAddress)
 
-export default router;
-
-
+export default router
