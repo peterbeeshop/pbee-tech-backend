@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import AuthRoutes from './routes/authRoutes';
 import ProductRoutes from './routes/productRoutes';
+import AddressRoutes from './routes/addressRoutes';
 
 dotenv.config()
 const app: Express = express()
@@ -22,12 +23,13 @@ mongoose
   .then(() => {
     app.listen(port, () => { console.log(`Connected to DB, and running on port ${port}`) }
     )
-  })
+  }) 
   .catch(error => { console.log(error) })
 
 app.get('/', (req: Request, res: Response) => {
   res.send('hello typescript')
 })
 
-app.use(AuthRoutes)
-app.use(ProductRoutes)
+app.use(AuthRoutes);
+app.use(ProductRoutes);
+app.use(AddressRoutes);

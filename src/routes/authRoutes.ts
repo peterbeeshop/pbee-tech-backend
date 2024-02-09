@@ -1,6 +1,6 @@
 import { signup,login } from "../controllers/authController";
 import { Router } from "express";
-import User from "../models/User/user";
+import User from "../models/User";
 
 const router = Router();
 

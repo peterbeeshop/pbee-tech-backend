@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 import bcrypt from 'bcryptjs';
-import User from "../models/User/user";
+import User from "../models/User";
 
 export const signup = (req: Request, res:Response ) => {
     const {email, password} = req.body;

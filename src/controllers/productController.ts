@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import {Error} from "mongoose";
-import Product from "../models/Product/product";
+import Product from "../models/Product";
 import {IProduct} from "../types";
 
 
