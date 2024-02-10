@@ -1,20 +1,15 @@
 import { Request, Response } from 'express'
 import bcrypt from 'bcryptjs'
 import User from '../models/User'
+import jwt from 'jsonwebtoken'
+import { Schema } from 'mongoose'
 
-export const signup = (req: Request, res: Response) => {
-  const { email, password } = req.body
-  User.findOne({ email }).then(user => {
-    if (user) {
-      res.send('User already exists. Login in')
-    } else {
-      let salt = bcrypt.genSaltSync(10)
-      let hash = bcrypt.hashSync(password, salt)
-      User.create({ email, password: hash })
-        .then(createdUser => res.send(createdUser))
-        .catch(err => res.send(err))
-    }
-  })
+const secretKey = process.env.JWTSecretKey
+
+const maxAge = 3 * 24 * 60 * 60 //3 days
+
+let createToken = (id: Schema.Types.ObjectId) => {
+  return jwt.sign(id, secretKey!, { expiresIn: maxAge })
 }
 
 export const login = (req: Request, res: Response) => {
@@ -27,11 +22,27 @@ export const login = (req: Request, res: Response) => {
       bcrypt.compare(password, user.password, (err, result) => {
         if (err) res.send(err.message)
         if (result) {
+          const token = createToken(user._id)
           res
-            .cookie('userId', user._id, { maxAge: 1200000 })
+            .cookie('jwt', token, { maxAge: maxAge * 1000 })
             .send('successfully logged in.')
         } else res.send('incorrect password') //if the passwords didn't match
       })
+    }
+  })
+}
+
+export const signup = (req: Request, res: Response) => {
+  const { email, password } = req.body
+  User.findOne({ email }).then(user => {
+    if (user) {
+      res.send('User already exists. Login in')
+    } else {
+      let salt = bcrypt.genSaltSync(10)
+      let hash = bcrypt.hashSync(password, salt)
+      User.create({ email, password: hash })
+        .then(createdUser => res.send(createdUser))
+        .catch(err => res.send(err))
     }
   })
 }
