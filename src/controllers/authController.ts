@@ -2,14 +2,18 @@ import { Request, Response } from 'express'
 import bcrypt from 'bcryptjs'
 import User from '../models/User'
 import jwt from 'jsonwebtoken'
-import { Schema } from 'mongoose'
+import { Types } from 'mongoose'
 
-const secretKey = process.env.JWTSecretKey
+const secretKey = process.env.JWT_SECRET_KEY!
 
 const maxAge = 3 * 24 * 60 * 60 //3 days
 
-let createToken = (id: Schema.Types.ObjectId) => {
-  return jwt.sign(id, secretKey!, { expiresIn: maxAge })
+if (!secretKey) {
+  console.log('JWTSecretKey is not defined in the environment variables.')
+  process.exit(1) // or handle the error appropriately
+}
+let createToken = (id: Types.ObjectId) => {
+  return jwt.sign({ id }, secretKey, { expiresIn: maxAge })
 }
 
 export const login = (req: Request, res: Response) => {

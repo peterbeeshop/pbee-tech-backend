@@ -1,12 +1,12 @@
+import dotenv from 'dotenv'
+dotenv.config() //call the dotenv before importing other modules. Calling it later after importing modules and files led to an error where env variables were not accessible within nested folders unless I imported dotenv from 'dotenv' in that particular file.
 import express, { type Express, type Request, type Response } from 'express'
 import mongoose from 'mongoose'
-import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
 import AuthRoutes from './routes/authRoutes'
 import ProductRoutes from './routes/productRoutes'
 import AddressRoutes from './routes/addressRoutes'
 
-dotenv.config()
 const app: Express = express()
 const port = process.env.PORT || 5000
 
