@@ -12,7 +12,7 @@ if (!secretKey) {
   console.log('JWTSecretKey is not defined in the environment variables.')
   process.exit(1) // or handle the error appropriately
 }
-let createToken = (id: Types.ObjectId) => {
+const createToken = (id: Types.ObjectId) => {
   return jwt.sign({ id }, secretKey, { expiresIn: maxAge })
 }
 
