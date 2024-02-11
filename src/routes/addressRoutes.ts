@@ -13,6 +13,6 @@ router.get('/address', authenticateUser, getAddressForUser)
 
 router.get('/all-address', getAllAddress)
 
-router.post('/address', createAddress)
+router.post('/address', authenticateUser, createAddress)
 
 export default router

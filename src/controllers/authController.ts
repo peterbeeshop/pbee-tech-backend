@@ -29,7 +29,8 @@ export const login = (req: Request, res: Response) => {
           const token = createToken(user._id)
           res
             .cookie('jwt', token, { maxAge: maxAge * 1000 })
-            .send('successfully logged in.')
+            .status(200)
+            .json(user)
         } else res.send('incorrect password') //if the passwords didn't match
       })
     }
@@ -49,4 +50,8 @@ export const signup = (req: Request, res: Response) => {
         .catch(err => res.send(err))
     }
   })
+}
+
+export const logout = (req: Request, res: Response) => {
+  res.clearCookie('jwt').json('User has been logged out')
 }
