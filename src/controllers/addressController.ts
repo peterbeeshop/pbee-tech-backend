@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { currentUser } from '../helpers/currentUser'
 import Address from '../models/Address'
 
 export const getAllAddress = async (req: Request, res: Response) => {
@@ -11,7 +12,7 @@ export const getAllAddress = async (req: Request, res: Response) => {
 }
 
 export const getAddressForUser = async (req: Request, res: Response) => {
-  const { userId } = req.cookies
+  const userId = currentUser(req, res)
   try {
     const address = await Address.find({ user: userId })
     res.json(address)
@@ -19,8 +20,7 @@ export const getAddressForUser = async (req: Request, res: Response) => {
 }
 
 export const createAddress = async (req: Request, res: Response) => {
-  const { userId } = req.cookies
-  console.log(userId)
+  const userId = currentUser(req, res)
   try {
     const { fullName, street, city, province, phoneNumber } = req.body
     const address = await Address.create({
