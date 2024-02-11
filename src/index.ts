@@ -7,6 +7,8 @@ import AuthRoutes from './routes/authRoutes'
 import ProductRoutes from './routes/productRoutes'
 import AddressRoutes from './routes/addressRoutes'
 import CartRoutes from './routes/cartRoutes'
+import UserRoutes from './routes/userRoutes'
+import { authenticateUser } from './middlewares/authMiddleware'
 
 const app: Express = express()
 const port = process.env.PORT || 5000
@@ -40,3 +42,4 @@ app.use(AuthRoutes)
 app.use(ProductRoutes)
 app.use(AddressRoutes)
 app.use(CartRoutes)
+app.use(authenticateUser, UserRoutes)

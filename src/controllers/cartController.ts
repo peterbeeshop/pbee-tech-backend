@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import { Error } from 'mongoose'
 import { currentUser } from '../helpers/currentUser'
 import Product from '../models/Product'
 import User from '../models/User'

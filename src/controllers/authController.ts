@@ -43,8 +43,8 @@ export const signup = (req: Request, res: Response) => {
     if (user) {
       res.send('User already exists. Login in')
     } else {
-      let salt = bcrypt.genSaltSync(10)
-      let hash = bcrypt.hashSync(password, salt)
+      const salt = bcrypt.genSaltSync(10)
+      const hash = bcrypt.hashSync(password, salt)
       User.create({ email, password: hash })
         .then(createdUser => res.send(createdUser))
         .catch(err => res.send(err))
