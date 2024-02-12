@@ -3,6 +3,9 @@ dotenv.config() //call the dotenv before importing other modules. Calling it lat
 import express, { type Express, type Request, type Response } from 'express'
 import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
+
+//route imports
 import AuthRoutes from './routes/authRoutes'
 import ProductRoutes from './routes/productRoutes'
 import AddressRoutes from './routes/addressRoutes'
@@ -20,6 +23,13 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use(cookieParser())
+
+app.use(
+  cors({
+    origin: ['http://localhost:3000'],
+    credentials: true,
+  }),
+)
 
 // db connection
 const mongodbURL = `mongodb+srv://muyambangopeter:${process.env.mongoDbPassword}@clusterpbeetech.fejatzo.mongodb.net/?retryWrites=true&w=majority`

@@ -41,13 +41,15 @@ export const signup = (req: Request, res: Response) => {
   const { email, password } = req.body
   User.findOne({ email }).then(user => {
     if (user) {
-      res.send('User already exists. Login in')
+      res
+        .status(409)
+        .send('A user with that email already exists. Please login!')
     } else {
       const salt = bcrypt.genSaltSync(10)
       const hash = bcrypt.hashSync(password, salt)
       User.create({ email, password: hash })
-        .then(createdUser => res.send(createdUser))
-        .catch(err => res.send(err))
+        .then(createdUser => res.status(201).json(createdUser))
+        .catch(error => res.json({ error }))
     }
   })
 }
