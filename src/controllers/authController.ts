@@ -48,7 +48,13 @@ export const signup = (req: Request, res: Response) => {
       const salt = bcrypt.genSaltSync(10)
       const hash = bcrypt.hashSync(password, salt)
       User.create({ email, password: hash })
-        .then(createdUser => res.status(201).json(createdUser))
+        .then(createdUser => {
+          const token = createToken(createdUser._id)
+          res
+            .cookie('jwt', token, { maxAge: maxAge * 1000 })
+            .status(201)
+            .json({ message: 'Account has been created successfully!' })
+        })
         .catch(error => res.json({ error }))
     }
   })
