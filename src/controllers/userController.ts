@@ -13,9 +13,14 @@ export const editName = async (req: Request, res: Response) => {
   )
 
   if (updatedUser) {
-    res.status(200).json(updatedUser)
+    res
+      .status(200)
+      .json({
+        firstName: updatedUser.firstName,
+        lastName: updatedUser.lastName,
+      })
   } else {
-    res.json({ error: 'Could not find user' })
+    res.status(404).json({ message: 'Could not find user' })
   }
 }
 

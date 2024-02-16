@@ -8,6 +8,8 @@ const secretKey = process.env.JWT_SECRET_KEY!
 
 const maxAge = 3 * 24 * 60 * 60 //3 days
 
+const isProduction = process.env.NODE_ENV === 'production'
+
 if (!secretKey) {
   console.log('JWTSecretKey is not defined in the environment variables.')
   process.exit(1) // or handle the error appropriately
@@ -28,7 +30,7 @@ export const login = (req: Request, res: Response) => {
         if (result) {
           const token = createToken(user._id)
           res
-            .cookie('jwt', token, { maxAge: maxAge * 1000 })
+            .cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 })
             .status(200)
             .json({ user, token })
         } else
@@ -52,7 +54,7 @@ export const signup = (req: Request, res: Response) => {
         .then(createdUser => {
           const token = createToken(createdUser._id)
           res
-            .cookie('jwt', token, { maxAge: maxAge * 1000 })
+            .cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 })
             .status(201)
             .json({ user: createdUser, token })
         })
