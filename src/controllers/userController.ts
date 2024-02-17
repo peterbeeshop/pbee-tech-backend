@@ -13,30 +13,34 @@ export const editName = async (req: Request, res: Response) => {
   )
 
   if (updatedUser) {
-    res
-      .status(200)
-      .json({
-        firstName: updatedUser.firstName,
-        lastName: updatedUser.lastName,
-      })
+    res.status(200).json({
+      firstName: updatedUser.firstName,
+      lastName: updatedUser.lastName,
+    })
   } else {
     res.status(404).json({ message: 'Could not find user' })
   }
 }
 
 export const editEmail = async (req: Request, res: Response) => {
-  const { email } = req.body
+  const { email } = req.body //new email user wants to change to
   const userId = currentUser(req, res)
-  const updatedUser = await User.findByIdAndUpdate(
-    userId,
-    { email },
-    { new: true },
-  )
+  const doesEmailExist = await User.find({ email })
 
-  if (updatedUser) {
-    res.status(200).json(updatedUser)
+  if (doesEmailExist.length !== 0) {
+    res.status(401).json({ message: 'Email is already taken!' })
   } else {
-    res.json({ error: 'Could not find user' })
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { email },
+      { new: true },
+    )
+
+    if (updatedUser) {
+      res.status(200).json(updatedUser.email)
+    } else {
+      res.status(404).json({ message: 'Could not find user' })
+    }
   }
 }
 
@@ -48,7 +52,7 @@ export const editPassword = async (req: Request, res: Response) => {
   if (user) {
     bcrypt.compare(oldPassword, user?.password, async (err, decoded) => {
       if (err) {
-        res.status(500).json({ error: 'An error occured on the server' })
+        res.status(500).json({ message: 'An error occured on the server' })
       }
       if (decoded) {
         // Hash the new password before updating
@@ -60,7 +64,7 @@ export const editPassword = async (req: Request, res: Response) => {
           .then(updatedUser => {
             res.json('Your password has been changed successfully!')
           })
-          .catch(error => res.send({ error }))
+          .catch(error => res.status(500).json({ message: error.message }))
       } else {
         res.status(401).json({ error: 'Incorrect passord.' })
       }
