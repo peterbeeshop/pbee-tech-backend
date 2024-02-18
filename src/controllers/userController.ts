@@ -66,7 +66,7 @@ export const editPassword = async (req: Request, res: Response) => {
           })
           .catch(error => res.status(500).json({ message: error.message }))
       } else {
-        res.status(401).json({ error: 'Incorrect passord.' })
+        res.status(401).json({ message: 'Incorrect passord.' })
       }
     })
   } else {
